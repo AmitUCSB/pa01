@@ -5,6 +5,7 @@
 #include <string>
 #include <set>
 #include <sstream>
+#include <iterator>
 #include "card.h"
 
 using namespace std;
@@ -15,11 +16,12 @@ void playGame(set<Card>& p1, set<Card>& p2) {
   while (foundMatch) {
     foundMatch = false;
 
+    // Alice's turn (forward order)
     for (auto it = p1.begin(); it != p1.end(); ) {
       if (p2.find(*it) != p2.end()) {
         cout << "Alice picked matching card " << *it << endl;
         p2.erase(*it);
-        it = p1.erase(it);
+        it = p1.erase(it);  // erase returns next valid iterator
         foundMatch = true;
         break;
       } else {
@@ -27,16 +29,15 @@ void playGame(set<Card>& p1, set<Card>& p2) {
       }
     }
 
-    for (auto it = p2.rbegin(); it != p2.rend(); ) {
+    // Bob's turn (reverse order)
+    for (auto it = p2.rbegin(); it != p2.rend(); ++it) {
       if (p1.find(*it) != p1.end()) {
         cout << "Bob picked matching card " << *it << endl;
         p1.erase(*it);
-        auto fwdIt = next(it).base(); 
-        p2.erase(fwdIt);
+        auto fwdIt = std::prev(it.base()); // convert reverse to forward iterator
+        p2.erase(fwdIt); // safe erase
         foundMatch = true;
         break;
-      } else {
-        ++it;
       }
     }
   }
@@ -69,19 +70,23 @@ int main(int argc, char** argv) {
 
   set<Card> p1;
   set<Card> p2;
-  char val;
-  char suit;
 
   while (getline(cardFile1, line) && !line.empty()) {
     istringstream iss(line);
-    iss >> suit >> val;
+    string valStr;
+    char suit, val;
+    iss >> suit >> valStr;
+    val = (valStr == "10") ? 't' : valStr[0];
     p1.insert(Card(suit, val));
   }
   cardFile1.close();
 
   while (getline(cardFile2, line) && !line.empty()) {
     istringstream iss(line);
-    iss >> suit >> val;
+    string valStr;
+    char suit, val;
+    iss >> suit >> valStr;
+    val = (valStr == "10") ? 't' : valStr[0];
     p2.insert(Card(suit, val));
   }
   cardFile2.close();
