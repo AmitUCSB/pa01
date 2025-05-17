@@ -176,7 +176,7 @@ void playGame(card_list& alice, card_list& bob) {
 
         for (card_list::Iterator it = alice.begin(); it != alice.end(); ++it) {
             if (bob.contains(*it)) {
-                std::cout << "Alice picked matching card " << it->toString() << std::endl;
+                std::cout << "Alice picked matching card " << *it << std::endl;
                 bob.remove(*it);
                 alice.remove(*it);
                 found = true;
@@ -186,7 +186,7 @@ void playGame(card_list& alice, card_list& bob) {
 
         for (card_list::Iterator it = bob.rbegin(); it != bob.rend(); --it) {
             if (alice.contains(*it)) {
-                std::cout << "Bob picked matching card " << it->toString() << std::endl;
+                std::cout << "Bob picked matching card " << *it << std::endl;
                 alice.remove(*it);
                 bob.remove(*it);
                 found = true;

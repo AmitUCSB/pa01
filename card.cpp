@@ -61,6 +61,7 @@ bool Card::operator==(const Card& other) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Card& c) {
-    os << c.suit << " " << c.val;
+    std::string valStr = (c.getVal() == 't') ? "10" : std::string(1, c.getVal());
+    os << c.getSuit() << " " << valStr;
     return os;
 }
