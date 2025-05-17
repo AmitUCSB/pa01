@@ -1,10 +1,10 @@
 // Feb 14: This file should implement the game using a custom implementation of a BST (that is based on your implementation from lab02)
+#include "card_list.h"
+#include "card.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "card.h"
-#include "card_list.h"
 //Do not include set in this file
 
 using namespace std;
