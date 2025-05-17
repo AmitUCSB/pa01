@@ -97,10 +97,9 @@ card_list::Node* card_list::getMax(Node* node) const {
 
 void card_list::printDeck() const {
     for (Iterator it = begin(); it != end(); ++it) {
-        std::cout << it->toString() << std::endl;
+        std::cout << *it << std::endl;
     }
 }
-
 card_list::Iterator::Iterator() : current(nullptr) {}
 
 card_list::Iterator::Iterator(Node* ptr) : current(ptr) {}
