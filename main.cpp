@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 #include "card.h"
 #include "card_list.h"
 //Do not include set in this file
@@ -14,27 +15,45 @@ int main(int argv, char** argc){
     return 1;
   }
   
-  ifstream cardFile1 (argc[1]);
-  ifstream cardFile2 (argc[2]);
+  ifstream cardFile1(argc[1]);
+  ifstream cardFile2(argc[2]);
   string line;
 
-  if (cardFile1.fail() || cardFile2.fail() ){
+  if (cardFile1.fail() || cardFile2.fail()) {
     cout << "Could not open file " << argc[2];
     return 1;
   }
 
-  //Read each file
-  while (getline (cardFile1, line) && (line.length() > 0)){
+  card_list alice;
+  card_list bob;
 
+  while (getline(cardFile1, line) && (line.length() > 0)) {
+    istringstream iss(line);
+    char suit;
+    string valStr;
+    iss >> suit >> valStr;
+    char val;
+    if (valStr == "10") val = 't';
+    else val = valStr[0];
+    Card c(suit, val);
+    alice.insert(c);
   }
   cardFile1.close();
 
-
-  while (getline (cardFile2, line) && (line.length() > 0)){
-
+  while (getline(cardFile2, line) && (line.length() > 0)) {
+    istringstream iss(line);
+    char suit;
+    string valStr;
+    iss >> suit >> valStr;
+    char val;
+    if (valStr == "10") val = 't';
+    else val = valStr[0];
+    Card c(suit, val);
+    bob.insert(c);
   }
   cardFile2.close();
-  
-  
+
+  playGame(alice, bob);
+
   return 0;
 }
